@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import type { Project } from '@/types'
 import { Dashboard } from '@/pages/Dashboard'
 import { ProjectDetail } from '@/pages/ProjectDetail'
 import { Timeline } from '@/pages/Timeline'
 import { ThemeToggle } from '@/components/ThemeToggle'
-import { LayoutDashboard, CalendarRange } from 'lucide-react'
+import { FileLoader } from '@/components/FileLoader'
+import { LayoutDashboard, CalendarRange, FolderOpen } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
@@ -26,7 +27,7 @@ function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
   )
 }
 
-function AppShell({ projects }: { projects: Project[] }) {
+function AppShell({ projects, onChangeFile }: { projects: Project[]; onChangeFile: () => void }) {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 border-b border-border bg-background/80 backdrop-blur-sm">
@@ -36,7 +37,17 @@ function AppShell({ projects }: { projects: Project[] }) {
             <NavLink to="/"><LayoutDashboard className="w-3.5 h-3.5" />Dashboard</NavLink>
             <NavLink to="/timeline"><CalendarRange className="w-3.5 h-3.5" />Timeline</NavLink>
           </nav>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onChangeFile}
+              title="Load a different file"
+              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded-md hover:bg-muted transition-colors"
+            >
+              <FolderOpen className="w-3.5 h-3.5" />
+              Change file
+            </button>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
@@ -51,19 +62,35 @@ function AppShell({ projects }: { projects: Project[] }) {
   )
 }
 
-export default function App() {
-  const [projects, setProjects] = useState<Project[]>([])
+function loadCached(): Project[] | null {
+  try {
+    const raw = sessionStorage.getItem('lifetracker-data')
+    return raw ? (JSON.parse(raw) as Project[]) : null
+  } catch {
+    return null
+  }
+}
 
-  useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}data.json`)
-      .then((r) => r.json())
-      .then(setProjects)
-      .catch(() => setProjects([]))
-  }, [])
+export default function App() {
+  const [projects, setProjects] = useState<Project[] | null>(loadCached)
+
+  function handleLoad(data: Project[]) {
+    sessionStorage.setItem('lifetracker-data', JSON.stringify(data))
+    setProjects(data)
+  }
+
+  function handleChangeFile() {
+    sessionStorage.removeItem('lifetracker-data')
+    setProjects(null)
+  }
+
+  if (projects === null) {
+    return <FileLoader onLoad={handleLoad} />
+  }
 
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <AppShell projects={projects} />
+      <AppShell projects={projects} onChangeFile={handleChangeFile} />
     </BrowserRouter>
   )
 }

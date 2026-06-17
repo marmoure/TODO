@@ -50,7 +50,7 @@ export function Dashboard({ projects }: DashboardProps) {
       </div>
 
       {projects.length === 0 ? (
-        <p className="text-muted-foreground text-sm">No projects yet. Add entries to public/data.json to get started.</p>
+        <p className="text-muted-foreground text-sm">No projects found. Make sure your data.json contains a valid array of projects.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map((project) => (
