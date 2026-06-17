@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import type { Project } from '@/types'
+import { Calendar } from '@/pages/Calendar'
 import { Dashboard } from '@/pages/Dashboard'
 import { ProjectDetail } from '@/pages/ProjectDetail'
 import { Timeline } from '@/pages/Timeline'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { FileLoader } from '@/components/FileLoader'
-import { LayoutDashboard, CalendarRange, FolderOpen } from 'lucide-react'
+import { CalendarDays, LayoutDashboard, CalendarRange, FolderOpen } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
@@ -34,7 +35,8 @@ function AppShell({ projects, onChangeFile }: { projects: Project[]; onChangeFil
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
           <Link to="/" className="font-bold text-base tracking-tight">LifeTracker</Link>
           <nav className="flex items-center gap-1">
-            <NavLink to="/"><LayoutDashboard className="w-3.5 h-3.5" />Dashboard</NavLink>
+            <NavLink to="/"><CalendarDays className="w-3.5 h-3.5" />Calendar</NavLink>
+            <NavLink to="/dashboard"><LayoutDashboard className="w-3.5 h-3.5" />Dashboard</NavLink>
             <NavLink to="/timeline"><CalendarRange className="w-3.5 h-3.5" />Timeline</NavLink>
           </nav>
           <div className="flex items-center gap-2">
@@ -53,7 +55,8 @@ function AppShell({ projects, onChangeFile }: { projects: Project[]; onChangeFil
 
       <main className="max-w-5xl mx-auto px-4 py-6">
         <Routes>
-          <Route path="/" element={<Dashboard projects={projects} />} />
+          <Route path="/" element={<Calendar projects={projects} />} />
+          <Route path="/dashboard" element={<Dashboard projects={projects} />} />
           <Route path="/project/:id" element={<ProjectDetail projects={projects} />} />
           <Route path="/timeline" element={<Timeline projects={projects} />} />
         </Routes>
