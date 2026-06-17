@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { ChevronDown, ChevronRight, Clock, CalendarDays } from 'lucide-react'
+import { ChevronDown, ChevronRight, Clock, CalendarDays, Pencil, Plus, Trash2 } from 'lucide-react'
 import type { Task } from '@/types'
 import { cn, formatDate, daysUntil } from '@/lib/utils'
 import { NotesPanel } from '@/components/NotesPanel'
+import { TaskFormModal } from '@/components/TaskFormModal'
 
 const STATUS_STYLES: Record<Task['status'], string> = {
   pending: 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400',
@@ -14,10 +15,14 @@ const STATUS_STYLES: Record<Task['status'], string> = {
 interface TaskRowProps {
   task: Task
   depth?: number
+  onUpdateTask: (updated: Task) => void
+  onDeleteTask: (id: string) => void
+  onAddSubtask: (parentId: string, newTask: Task) => void
 }
 
-export function TaskRow({ task, depth = 0 }: TaskRowProps) {
+export function TaskRow({ task, depth = 0, onUpdateTask, onDeleteTask, onAddSubtask }: TaskRowProps) {
   const [expanded, setExpanded] = useState(true)
+  const [modal, setModal] = useState<'closed' | 'edit' | 'add-sub'>('closed')
   const hasChildren = task.tasks.length > 0
   const days = daysUntil(task.deadline)
   const isOverdue = days < 0 && task.status !== 'done'
@@ -26,7 +31,7 @@ export function TaskRow({ task, depth = 0 }: TaskRowProps) {
   return (
     <div className={cn('border-l-2 pl-3', depth === 0 ? 'border-border' : 'border-border/50 ml-4')}>
       <div className={cn(
-        'flex flex-wrap items-start gap-x-3 gap-y-1 py-2',
+        'group flex flex-wrap items-start gap-x-3 gap-y-1 py-2',
         task.status === 'done' && 'opacity-60',
       )}>
         <button
@@ -64,6 +69,30 @@ export function TaskRow({ task, depth = 0 }: TaskRowProps) {
             {task.cost.toLocaleString('fr-DZ')} DZD
           </div>
         )}
+
+        <div className="flex items-center gap-0.5 ml-auto opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+          <button
+            onClick={() => setModal('add-sub')}
+            title="Add subtask"
+            className="p-1 rounded hover:bg-muted text-muted-foreground transition-colors"
+          >
+            <Plus className="w-3 h-3" />
+          </button>
+          <button
+            onClick={() => setModal('edit')}
+            title="Edit task"
+            className="p-1 rounded hover:bg-muted text-muted-foreground transition-colors"
+          >
+            <Pencil className="w-3 h-3" />
+          </button>
+          <button
+            onClick={() => onDeleteTask(task.id)}
+            title="Delete task"
+            className="p-1 rounded hover:bg-red-500/10 text-muted-foreground hover:text-red-500 transition-colors"
+          >
+            <Trash2 className="w-3 h-3" />
+          </button>
+        </div>
       </div>
 
       {task.notes && (
@@ -75,9 +104,31 @@ export function TaskRow({ task, depth = 0 }: TaskRowProps) {
       {hasChildren && expanded && (
         <div className="mb-1">
           {task.tasks.map((child) => (
-            <TaskRow key={child.id} task={child} depth={depth + 1} />
+            <TaskRow
+              key={child.id}
+              task={child}
+              depth={depth + 1}
+              onUpdateTask={onUpdateTask}
+              onDeleteTask={onDeleteTask}
+              onAddSubtask={onAddSubtask}
+            />
           ))}
         </div>
+      )}
+
+      {modal === 'edit' && (
+        <TaskFormModal
+          initial={task}
+          onSave={(t) => { onUpdateTask(t); setModal('closed') }}
+          onDelete={() => { onDeleteTask(task.id); setModal('closed') }}
+          onClose={() => setModal('closed')}
+        />
+      )}
+      {modal === 'add-sub' && (
+        <TaskFormModal
+          onSave={(t) => { onAddSubtask(task.id, t); setModal('closed') }}
+          onClose={() => setModal('closed')}
+        />
       )}
     </div>
   )

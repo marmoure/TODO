@@ -7,7 +7,7 @@ import { ProjectDetail } from '@/pages/ProjectDetail'
 import { Timeline } from '@/pages/Timeline'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { FileLoader } from '@/components/FileLoader'
-import { CalendarDays, LayoutDashboard, CalendarRange, FolderOpen } from 'lucide-react'
+import { CalendarDays, LayoutDashboard, CalendarRange, FolderOpen, Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
@@ -28,7 +28,25 @@ function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
   )
 }
 
-function AppShell({ projects, onChangeFile }: { projects: Project[]; onChangeFile: () => void }) {
+function AppShell({
+  projects,
+  onProjectsChange,
+  onChangeFile,
+}: {
+  projects: Project[]
+  onProjectsChange: (updated: Project[]) => void
+  onChangeFile: () => void
+}) {
+  function handleDownload() {
+    const blob = new Blob([JSON.stringify(projects, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'lifetracker-data.json'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 border-b border-border bg-background/80 backdrop-blur-sm">
@@ -40,6 +58,14 @@ function AppShell({ projects, onChangeFile }: { projects: Project[]; onChangeFil
             <NavLink to="/timeline"><CalendarRange className="w-3.5 h-3.5" />Timeline</NavLink>
           </nav>
           <div className="flex items-center gap-2">
+            <button
+              onClick={handleDownload}
+              title="Download data as JSON"
+              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded-md hover:bg-muted transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Save JSON
+            </button>
             <button
               onClick={onChangeFile}
               title="Load a different file"
@@ -56,8 +82,8 @@ function AppShell({ projects, onChangeFile }: { projects: Project[]; onChangeFil
       <main className="max-w-5xl mx-auto px-4 py-6">
         <Routes>
           <Route path="/" element={<Calendar projects={projects} />} />
-          <Route path="/dashboard" element={<Dashboard projects={projects} />} />
-          <Route path="/project/:id" element={<ProjectDetail projects={projects} />} />
+          <Route path="/dashboard" element={<Dashboard projects={projects} onProjectsChange={onProjectsChange} />} />
+          <Route path="/project/:id" element={<ProjectDetail projects={projects} onProjectsChange={onProjectsChange} />} />
           <Route path="/timeline" element={<Timeline projects={projects} />} />
         </Routes>
       </main>
@@ -82,6 +108,11 @@ export default function App() {
     setProjects(data)
   }
 
+  function handleProjectsChange(updated: Project[]) {
+    sessionStorage.setItem('lifetracker-data', JSON.stringify(updated))
+    setProjects(updated)
+  }
+
   function handleChangeFile() {
     sessionStorage.removeItem('lifetracker-data')
     setProjects(null)
@@ -93,7 +124,7 @@ export default function App() {
 
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <AppShell projects={projects} onChangeFile={handleChangeFile} />
+      <AppShell projects={projects} onProjectsChange={handleProjectsChange} onChangeFile={handleChangeFile} />
     </BrowserRouter>
   )
 }

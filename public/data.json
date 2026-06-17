@@ -1,140 +1,140 @@
 [
-  {
-    "id": "house-rent-2027",
-    "title": "House Rent",
-    "deadline": "2027-01-01",
-    "notes": "Looking for a 3-bedroom apartment in the city center. Budget around 130,000 DZD/month.",
-    "tasks": [
-      {
-        "id": "hr-contact",
-        "title": "Get the owner contact",
-        "deadline": "2026-08-01",
-        "estimatedDays": 5,
-        "cost": 0,
-        "status": "pending",
-        "notes": "Ask neighbours and check Facebook groups for leads.",
-        "delayedBy": 0,
-        "tasks": []
-      },
-      {
-        "id": "hr-call",
-        "title": "Call the owner",
-        "deadline": "2026-08-10",
-        "estimatedDays": 1,
-        "cost": 0,
-        "status": "pending",
-        "notes": "",
-        "delayedBy": 0,
-        "tasks": []
-      },
-      {
-        "id": "hr-visit",
-        "title": "Visit the apartment",
-        "deadline": "2026-09-01",
-        "estimatedDays": 1,
-        "cost": 0,
-        "status": "pending",
-        "notes": "Bring checklist: plumbing, electricity, natural light, noise.",
-        "delayedBy": 0,
-        "tasks": []
-      },
-      {
-        "id": "hr-contract",
-        "title": "Draft the lease contract",
-        "deadline": "2026-10-01",
-        "estimatedDays": 1,
-        "cost": 0,
-        "status": "pending",
-        "notes": "",
-        "delayedBy": 0,
-        "tasks": []
-      },
-      {
-        "id": "hr-fees",
-        "title": "Pay the fees",
+    {
+        "id": "house-rent-2027",
+        "title": "House Rent",
         "deadline": "2027-01-01",
-        "estimatedDays": 1,
-        "cost": 1560000,
-        "status": "pending",
-        "notes": "130,000 DZD × 12 months",
-        "delayedBy": 0,
-        "tasks": []
-      }
-    ]
-  },
-  {
-    "id": "car-purchase-2026",
-    "title": "Car Purchase",
-    "deadline": "2026-12-31",
-    "notes": "Target: used sedan, under 5 years old, max 3,500,000 DZD.",
-    "tasks": [
-      {
-        "id": "car-research",
-        "title": "Research models and prices",
-        "deadline": "2026-07-15",
-        "estimatedDays": 7,
-        "cost": 0,
-        "status": "in-progress",
-        "notes": "Compare Toyota Yaris, Dacia Logan, and Hyundai i10.",
-        "delayedBy": 0,
-        "tasks": []
-      },
-      {
-        "id": "car-insurance",
-        "title": "Get insurance quotes",
-        "deadline": "2026-08-01",
-        "estimatedDays": 3,
-        "cost": 0,
-        "status": "pending",
-        "notes": "",
-        "delayedBy": 14,
-        "tasks": []
-      },
-      {
-        "id": "car-financing",
-        "title": "Arrange financing",
-        "deadline": "2026-09-01",
-        "estimatedDays": 14,
-        "cost": 0,
-        "status": "pending",
-        "notes": "",
-        "delayedBy": 0,
+        "notes": "Looking for a 3-bedroom apartment in the city center. Budget around 130,000 DZD/month.",
         "tasks": [
-          {
-            "id": "car-bank-appt",
-            "title": "Book bank appointment",
-            "deadline": "2026-07-20",
-            "estimatedDays": 1,
-            "cost": 0,
-            "status": "pending",
-            "notes": "",
-            "delayedBy": 0,
-            "tasks": []
-          },
-          {
-            "id": "car-docs",
-            "title": "Prepare documentation",
-            "deadline": "2026-07-25",
-            "estimatedDays": 2,
-            "cost": 0,
-            "status": "pending",
-            "notes": "Salary certificate, bank statements (3 months), ID.",
-            "delayedBy": 0,
-            "tasks": []
-          }
+            {
+                "id": "hr-contact",
+                "title": "Get the owner contact",
+                "deadline": "2026-08-01",
+                "estimatedDays": 5,
+                "cost": 0,
+                "status": "pending",
+                "notes": "Ask neighbours and check Facebook groups for leads.",
+                "delayedBy": 0,
+                "tasks": []
+            },
+            {
+                "id": "hr-call",
+                "title": "Call the owner",
+                "deadline": "2026-08-10",
+                "estimatedDays": 1,
+                "cost": 0,
+                "status": "pending",
+                "notes": "",
+                "delayedBy": 0,
+                "tasks": []
+            },
+            {
+                "id": "hr-visit",
+                "title": "Visit the apartment",
+                "deadline": "2026-09-01",
+                "estimatedDays": 1,
+                "cost": 0,
+                "status": "pending",
+                "notes": "Bring checklist: plumbing, electricity, natural light, noise.",
+                "delayedBy": 0,
+                "tasks": []
+            },
+            {
+                "id": "hr-contract",
+                "title": "Draft the lease contract",
+                "deadline": "2026-10-01",
+                "estimatedDays": 1,
+                "cost": 0,
+                "status": "pending",
+                "notes": "",
+                "delayedBy": 0,
+                "tasks": []
+            },
+            {
+                "id": "hr-fees",
+                "title": "Pay the fees",
+                "deadline": "2027-01-01",
+                "estimatedDays": 1,
+                "cost": 1560000,
+                "status": "pending",
+                "notes": "130,000 DZD × 12 months",
+                "delayedBy": 0,
+                "tasks": []
+            }
         ]
-      },
-      {
-        "id": "car-buy",
-        "title": "Purchase and register",
+    },
+    {
+        "id": "car-purchase-2026",
+        "title": "Car Purchase",
         "deadline": "2026-12-31",
-        "estimatedDays": 2,
-        "cost": 3200000,
-        "status": "pending",
-        "notes": "",
-        "delayedBy": 0,
-        "tasks": []
-      }
-    ]
-  }
+        "notes": "Target: used sedan, under 5 years old, max 3,500,000 DZD.",
+        "tasks": [
+            {
+                "id": "car-research",
+                "title": "Research models and prices",
+                "deadline": "2026-07-15",
+                "estimatedDays": 7,
+                "cost": 0,
+                "status": "in-progress",
+                "notes": "Compare Toyota Yaris, Dacia Logan, and Hyundai i10.",
+                "delayedBy": 0,
+                "tasks": []
+            },
+            {
+                "id": "car-insurance",
+                "title": "Get insurance quotes",
+                "deadline": "2026-08-01",
+                "estimatedDays": 3,
+                "cost": 0,
+                "status": "pending",
+                "notes": "",
+                "delayedBy": 14,
+                "tasks": []
+            },
+            {
+                "id": "car-financing",
+                "title": "Arrange financing",
+                "deadline": "2026-09-01",
+                "estimatedDays": 14,
+                "cost": 0,
+                "status": "pending",
+                "notes": "",
+                "delayedBy": 0,
+                "tasks": [
+                    {
+                        "id": "car-bank-appt",
+                        "title": "Book bank appointment",
+                        "deadline": "2026-07-20",
+                        "estimatedDays": 1,
+                        "cost": 0,
+                        "status": "pending",
+                        "notes": "",
+                        "delayedBy": 0,
+                        "tasks": []
+                    },
+                    {
+                        "id": "car-docs",
+                        "title": "Prepare documentation",
+                        "deadline": "2026-07-25",
+                        "estimatedDays": 2,
+                        "cost": 0,
+                        "status": "pending",
+                        "notes": "Salary certificate, bank statements (3 months), ID.",
+                        "delayedBy": 0,
+                        "tasks": []
+                    }
+                ]
+            },
+            {
+                "id": "car-buy",
+                "title": "Purchase and register",
+                "deadline": "2026-12-31",
+                "estimatedDays": 2,
+                "cost": 3200000,
+                "status": "pending",
+                "notes": "",
+                "delayedBy": 0,
+                "tasks": []
+            }
+        ]
+    }
 ]

@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import type { Task } from '@/types'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -21,4 +22,24 @@ export function daysUntil(iso: string): number {
   now.setHours(0, 0, 0, 0)
   const target = new Date(iso)
   return Math.ceil((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+}
+
+export function updateTaskById(tasks: Task[], updated: Task): Task[] {
+  return tasks.map(t =>
+    t.id === updated.id ? updated : { ...t, tasks: updateTaskById(t.tasks, updated) }
+  )
+}
+
+export function deleteTaskById(tasks: Task[], id: string): Task[] {
+  return tasks
+    .filter(t => t.id !== id)
+    .map(t => ({ ...t, tasks: deleteTaskById(t.tasks, id) }))
+}
+
+export function addSubtaskById(tasks: Task[], parentId: string, newTask: Task): Task[] {
+  return tasks.map(t =>
+    t.id === parentId
+      ? { ...t, tasks: [...t.tasks, newTask] }
+      : { ...t, tasks: addSubtaskById(t.tasks, parentId, newTask) }
+  )
 }

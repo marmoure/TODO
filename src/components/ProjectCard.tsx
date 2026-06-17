@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CalendarDays, ChevronRight } from 'lucide-react'
+import { CalendarDays, ChevronRight, Pencil } from 'lucide-react'
 import type { Project } from '@/types'
 import { rollupCosts } from '@/lib/rollupCosts'
 import { propagateDeadlines } from '@/lib/propagateDeadlines'
@@ -7,6 +7,7 @@ import { cn, formatDate, daysUntil } from '@/lib/utils'
 
 interface ProjectCardProps {
   project: Project
+  onEdit: () => void
 }
 
 function countTasks(tasks: Project['tasks']): { total: number; done: number } {
@@ -22,7 +23,7 @@ function countTasks(tasks: Project['tasks']): { total: number; done: number } {
   )
 }
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, onEdit }: ProjectCardProps) {
   const total = rollupCosts(project.tasks)
   const { original, current, delayDays } = propagateDeadlines(project)
   const { total: taskCount, done: doneCount } = countTasks(project.tasks)
@@ -32,18 +33,32 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isDueSoon = days >= 0 && days <= 7
 
   return (
-    <Link
-      to={`/project/${project.id}`}
+    <div
       className={cn(
-        'block rounded-xl border p-5 hover:shadow-md transition-shadow bg-card',
+        'relative rounded-xl border p-5 hover:shadow-md transition-shadow bg-card group',
         isOverdue && 'border-red-500/40',
         isDueSoon && !isOverdue && 'border-yellow-500/40',
         !isOverdue && !isDueSoon && 'border-border',
       )}
     >
+      <Link
+        to={`/project/${project.id}`}
+        className="absolute inset-0 rounded-xl"
+        aria-label={`Open ${project.title}`}
+      />
+
       <div className="flex items-start justify-between gap-2 mb-3">
         <h2 className="font-semibold text-base leading-tight">{project.title}</h2>
-        <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+        <div className="relative z-10 flex items-center gap-1">
+          <button
+            onClick={(e) => { e.preventDefault(); onEdit() }}
+            className="p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity hover:bg-muted text-muted-foreground"
+            aria-label="Edit project"
+          >
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
+          <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+        </div>
       </div>
 
       <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
@@ -75,6 +90,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
       <div className="text-xs text-muted-foreground tabular-nums">
         {total.toLocaleString('fr-DZ')} DZD
       </div>
-    </Link>
+    </div>
   )
 }
