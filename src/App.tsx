@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import type { Project } from '@/types'
 import { Calendar } from '@/pages/Calendar'
@@ -6,8 +6,8 @@ import { Dashboard } from '@/pages/Dashboard'
 import { ProjectDetail } from '@/pages/ProjectDetail'
 import { Timeline } from '@/pages/Timeline'
 import { ThemeToggle } from '@/components/ThemeToggle'
-import { FileLoader } from '@/components/FileLoader'
-import { CalendarDays, LayoutDashboard, CalendarRange, FolderOpen, Download } from 'lucide-react'
+import { PasswordGate } from '@/components/PasswordGate'
+import { CalendarDays, LayoutDashboard, CalendarRange, Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
@@ -31,11 +31,9 @@ function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
 function AppShell({
   projects,
   onProjectsChange,
-  onChangeFile,
 }: {
   projects: Project[]
   onProjectsChange: (updated: Project[]) => void
-  onChangeFile: () => void
 }) {
   function handleDownload() {
     const blob = new Blob([JSON.stringify(projects, null, 2)], { type: 'application/json' })
@@ -66,14 +64,6 @@ function AppShell({
               <Download className="w-3.5 h-3.5" />
               Save JSON
             </button>
-            <button
-              onClick={onChangeFile}
-              title="Load a different file"
-              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded-md hover:bg-muted transition-colors"
-            >
-              <FolderOpen className="w-3.5 h-3.5" />
-              Change file
-            </button>
             <ThemeToggle />
           </div>
         </div>
@@ -91,6 +81,10 @@ function AppShell({
   )
 }
 
+function isAuthenticated(): boolean {
+  return sessionStorage.getItem('lifetracker-auth') === '1'
+}
+
 function loadCached(): Project[] | null {
   try {
     const raw = sessionStorage.getItem('lifetracker-data')
@@ -101,30 +95,54 @@ function loadCached(): Project[] | null {
 }
 
 export default function App() {
+  const [authed, setAuthed] = useState<boolean>(isAuthenticated)
   const [projects, setProjects] = useState<Project[] | null>(loadCached)
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
-  function handleLoad(data: Project[]) {
-    sessionStorage.setItem('lifetracker-data', JSON.stringify(data))
-    setProjects(data)
-  }
+  useEffect(() => {
+    if (!authed || projects !== null) return
+    fetch(import.meta.env.BASE_URL + 'data.json')
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        return r.json()
+      })
+      .then((data: Project[]) => {
+        sessionStorage.setItem('lifetracker-data', JSON.stringify(data))
+        setProjects(data)
+      })
+      .catch(() => setFetchError('Could not load data.json. Make sure it exists on the server.'))
+  }, [authed, projects])
 
   function handleProjectsChange(updated: Project[]) {
     sessionStorage.setItem('lifetracker-data', JSON.stringify(updated))
     setProjects(updated)
   }
 
-  function handleChangeFile() {
-    sessionStorage.removeItem('lifetracker-data')
-    setProjects(null)
+  if (!authed) {
+    return <PasswordGate onAuthenticated={() => setAuthed(true)} />
+  }
+
+  if (fetchError) {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <div className="w-full max-w-sm px-6 py-8 rounded-xl border border-border bg-card shadow-sm text-center">
+          <p className="text-sm text-red-500">{fetchError}</p>
+        </div>
+      </div>
+    )
   }
 
   if (projects === null) {
-    return <FileLoader onLoad={handleLoad} />
+    return (
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <p className="text-sm text-muted-foreground">Loading…</p>
+      </div>
+    )
   }
 
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <AppShell projects={projects} onProjectsChange={handleProjectsChange} onChangeFile={handleChangeFile} />
+      <AppShell projects={projects} onProjectsChange={handleProjectsChange} />
     </BrowserRouter>
   )
 }
