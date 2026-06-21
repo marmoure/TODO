@@ -1,139 +1,188 @@
 [
     {
-        "id": "house-rent-2027",
-        "title": "House Rent",
-        "deadline": "2027-01-01",
-        "notes": "Looking for a 3-bedroom apartment in the city center. Budget around 130,000 DZD/month.",
+        "id": "house-2026",
+        "title": "🏠 House",
+        "deadline": "2026-07-31",
+        "notes": "July (~40 days). Considering 2-year prepay = 32M. Worth weighing: locking in the rate is nice, but that 32M lands right before the September crunch (vacation + mushroom project = 44M). If cash flow is tight, the 1-year option keeps 16M free for September. Flexible item — good one to delay or trim if July/September gets tight.",
         "tasks": [
             {
-                "id": "hr-contact",
-                "title": "Get the owner contact",
-                "deadline": "2026-08-01",
-                "estimatedDays": 5,
-                "cost": 0,
-                "status": "pending",
-                "notes": "Ask neighbours and check Facebook groups for leads.",
-                "delayedBy": 0,
-                "tasks": []
-            },
-            {
-                "id": "hr-call",
-                "title": "Call the owner",
-                "deadline": "2026-08-10",
+                "id": "house-pay-prepay",
+                "title": "Pay rent prepay",
+                "deadline": "2026-07-31",
                 "estimatedDays": 1,
-                "cost": 0,
+                "cost": 32000000,
                 "status": "pending",
-                "notes": "",
-                "delayedBy": 0,
-                "tasks": []
-            },
-            {
-                "id": "hr-visit",
-                "title": "Visit the apartment",
-                "deadline": "2026-09-01",
-                "estimatedDays": 1,
-                "cost": 0,
-                "status": "pending",
-                "notes": "Bring checklist: plumbing, electricity, natural light, noise.",
-                "delayedBy": 0,
-                "tasks": []
-            },
-            {
-                "id": "hr-contract",
-                "title": "Draft the lease contract",
-                "deadline": "2026-10-01",
-                "estimatedDays": 1,
-                "cost": 0,
-                "status": "pending",
-                "notes": "",
-                "delayedBy": 0,
-                "tasks": []
-            },
-            {
-                "id": "hr-fees",
-                "title": "Pay the fees",
-                "deadline": "2027-01-01",
-                "estimatedDays": 1,
-                "cost": 1560000,
-                "status": "pending",
-                "notes": "130,000 DZD × 12 months",
+                "notes": "2-year prepay = 32M, or 1-year = 16M. Decide based on September cash flow.",
                 "delayedBy": 0,
                 "tasks": []
             }
         ]
     },
     {
-        "id": "car-purchase-2026",
-        "title": "Car Purchase",
-        "deadline": "2026-12-31",
-        "notes": "Target: used sedan, under 5 years old, max 3,500,000 DZD.",
+        "id": "vacation-2026",
+        "title": "✈️ Vacation",
+        "deadline": "2026-09-01",
+        "notes": "Deadline: start of September. Budget ~10M (based on September crunch total of 44M with mushroom project at 34M).",
         "tasks": [
             {
-                "id": "car-research",
-                "title": "Research models and prices",
-                "deadline": "2026-07-15",
-                "estimatedDays": 7,
-                "cost": 0,
-                "status": "in-progress",
-                "notes": "Compare Toyota Yaris, Dacia Logan, and Hyundai i10.",
+                "id": "vacation-pay",
+                "title": "Pay for vacation",
+                "deadline": "2026-09-01",
+                "estimatedDays": 1,
+                "cost": 10000000,
+                "status": "pending",
+                "notes": "",
+                "delayedBy": 0,
+                "tasks": []
+            }
+        ]
+    },
+    {
+        "id": "car-wheels-2027",
+        "title": "🚗 Car Wheels",
+        "deadline": "2027-01-01",
+        "notes": "8M. This is 6+ months out — lowest urgency on the list. Good candidate to save toward gradually rather than pulling from near-term cash.",
+        "tasks": [
+            {
+                "id": "car-wheels-buy",
+                "title": "Buy wheels",
+                "deadline": "2027-01-01",
+                "estimatedDays": 1,
+                "cost": 8000000,
+                "status": "pending",
+                "notes": "",
+                "delayedBy": 0,
+                "tasks": []
+            }
+        ]
+    },
+    {
+        "id": "mushroom-project-2026",
+        "title": "🍄 Mushroom Project",
+        "deadline": "2026-09-01",
+        "notes": "Total: 34M. September deadline.",
+        "tasks": [
+            {
+                "id": "mushroom-water-setup",
+                "title": "Water setup",
+                "deadline": "2026-09-01",
+                "estimatedDays": 1,
+                "cost": 5000000,
+                "status": "pending",
+                "notes": "Get quotes together with electric setup — installers often bundle water+electric work.",
                 "delayedBy": 0,
                 "tasks": []
             },
             {
-                "id": "car-insurance",
-                "title": "Get insurance quotes",
-                "deadline": "2026-08-01",
-                "estimatedDays": 3,
-                "cost": 0,
+                "id": "mushroom-electric-setup",
+                "title": "Electric setup",
+                "deadline": "2026-09-01",
+                "estimatedDays": 1,
+                "cost": 5000000,
                 "status": "pending",
-                "notes": "",
-                "delayedBy": 14,
+                "notes": "Get quotes together with water setup — installers often bundle water+electric work.",
+                "delayedBy": 0,
                 "tasks": []
             },
             {
-                "id": "car-financing",
-                "title": "Arrange financing",
+                "id": "mushroom-heating-redo",
+                "title": "Heating system redo",
                 "deadline": "2026-09-01",
-                "estimatedDays": 14,
+                "estimatedDays": 1,
+                "cost": 10000000,
+                "status": "pending",
+                "notes": "If this depends on the electric setup being done first, sequence it after.",
+                "delayedBy": 0,
+                "tasks": []
+            },
+            {
+                "id": "mushroom-buying",
+                "title": "Buying stuff",
+                "deadline": "2026-09-01",
+                "estimatedDays": 1,
                 "cost": 0,
                 "status": "pending",
-                "notes": "",
+                "notes": "Subtotal: ~14M",
                 "delayedBy": 0,
                 "tasks": [
                     {
-                        "id": "car-bank-appt",
-                        "title": "Book bank appointment",
-                        "deadline": "2026-07-20",
+                        "id": "mushroom-bags",
+                        "title": "Bags",
+                        "deadline": "2026-09-01",
                         "estimatedDays": 1,
-                        "cost": 0,
+                        "cost": 1000000,
                         "status": "pending",
                         "notes": "",
                         "delayedBy": 0,
                         "tasks": []
                     },
                     {
-                        "id": "car-docs",
-                        "title": "Prepare documentation",
-                        "deadline": "2026-07-25",
-                        "estimatedDays": 2,
-                        "cost": 0,
+                        "id": "mushroom-steam-barrel",
+                        "title": "Steam barrel",
+                        "deadline": "2026-09-01",
+                        "estimatedDays": 1,
+                        "cost": 500000,
                         "status": "pending",
-                        "notes": "Salary certificate, bank statements (3 months), ID.",
+                        "notes": "",
+                        "delayedBy": 0,
+                        "tasks": []
+                    },
+                    {
+                        "id": "mushroom-straw",
+                        "title": "Straw",
+                        "deadline": "2026-09-01",
+                        "estimatedDays": 1,
+                        "cost": 1000000,
+                        "status": "pending",
+                        "notes": "Trickiest buying item — confirm quantity needed before committing; over-buying straw ties up cash in something perishable/storage-dependent.",
+                        "delayedBy": 0,
+                        "tasks": []
+                    },
+                    {
+                        "id": "mushroom-work-table",
+                        "title": "Work table",
+                        "deadline": "2026-09-01",
+                        "estimatedDays": 1,
+                        "cost": 2000000,
+                        "status": "pending",
+                        "notes": "",
+                        "delayedBy": 0,
+                        "tasks": []
+                    },
+                    {
+                        "id": "mushroom-other-equipment",
+                        "title": "Other equipment",
+                        "deadline": "2026-09-01",
+                        "estimatedDays": 1,
+                        "cost": 5000000,
+                        "status": "pending",
+                        "notes": "Label unclear from source — identify what this covers.",
+                        "delayedBy": 0,
+                        "tasks": []
+                    },
+                    {
+                        "id": "mushroom-incubation-shelves",
+                        "title": "Incubation shelves",
+                        "deadline": "2026-09-01",
+                        "estimatedDays": 1,
+                        "cost": 2000000,
+                        "status": "pending",
+                        "notes": "",
+                        "delayedBy": 0,
+                        "tasks": []
+                    },
+                    {
+                        "id": "mushroom-growing-shelves",
+                        "title": "Growing shelves",
+                        "deadline": "2026-09-01",
+                        "estimatedDays": 1,
+                        "cost": 2000000,
+                        "status": "pending",
+                        "notes": "",
                         "delayedBy": 0,
                         "tasks": []
                     }
                 ]
-            },
-            {
-                "id": "car-buy",
-                "title": "Purchase and register",
-                "deadline": "2026-12-31",
-                "estimatedDays": 2,
-                "cost": 3200000,
-                "status": "pending",
-                "notes": "",
-                "delayedBy": 0,
-                "tasks": []
             }
         ]
     }
