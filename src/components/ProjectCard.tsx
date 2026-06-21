@@ -3,7 +3,7 @@ import { CalendarDays, ChevronRight, Pencil } from 'lucide-react'
 import type { Project } from '@/types'
 import { rollupCosts } from '@/lib/rollupCosts'
 import { propagateDeadlines } from '@/lib/propagateDeadlines'
-import { cn, formatDate, daysUntil } from '@/lib/utils'
+import { cn, formatDate, daysUntil, formatDZD } from '@/lib/utils'
 
 interface ProjectCardProps {
   project: Project
@@ -88,7 +88,7 @@ export function ProjectCard({ project, onEdit }: ProjectCardProps) {
       </div>
 
       <div className="text-xs text-muted-foreground tabular-nums">
-        {total.toLocaleString('fr-DZ')} DZD
+        {formatDZD(total)}
       </div>
     </div>
   )

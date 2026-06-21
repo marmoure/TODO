@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ChevronDown, ChevronRight, Clock, CalendarDays, Pencil, Plus, Trash2 } from 'lucide-react'
 import type { Task } from '@/types'
-import { cn, formatDate, daysUntil } from '@/lib/utils'
+import { cn, formatDate, daysUntil, formatDZD } from '@/lib/utils'
 import { NotesPanel } from '@/components/NotesPanel'
 import { TaskFormModal } from '@/components/TaskFormModal'
 
@@ -66,7 +66,7 @@ export function TaskRow({ task, depth = 0, onUpdateTask, onDeleteTask, onAddSubt
 
         {task.cost > 0 && (
           <div className="text-xs text-muted-foreground shrink-0 tabular-nums">
-            {task.cost.toLocaleString('fr-DZ')} DZD
+            {formatDZD(task.cost)}
           </div>
         )}
 

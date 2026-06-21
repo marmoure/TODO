@@ -1,4 +1,5 @@
 import { DollarSign } from 'lucide-react'
+import { formatDZD } from '@/lib/utils'
 
 interface CostSummaryProps {
   total: number
@@ -11,7 +12,7 @@ export function CostSummary({ total, label = 'Total Cost' }: CostSummaryProps) {
       <DollarSign className="w-4 h-4 text-muted-foreground shrink-0" />
       <span className="text-sm text-muted-foreground">{label}:</span>
       <span className="font-semibold tabular-nums">
-        {total.toLocaleString('fr-DZ')} DZD
+        {formatDZD(total)}
       </span>
     </div>
   )

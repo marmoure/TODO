@@ -6,7 +6,7 @@ import { ProjectFormModal } from '@/components/ProjectFormModal'
 import { rollupCosts } from '@/lib/rollupCosts'
 import { propagateDeadlines } from '@/lib/propagateDeadlines'
 import { flattenTimeline } from '@/lib/flattenTimeline'
-import { formatDate } from '@/lib/utils'
+import { formatDate, formatDZD } from '@/lib/utils'
 import { CalendarDays } from 'lucide-react'
 
 type ModalState =
@@ -64,7 +64,7 @@ export function Dashboard({ projects, onProjectsChange }: DashboardProps) {
       <div className="flex flex-wrap gap-4">
         <div className="flex-1 min-w-48 rounded-lg border border-border bg-muted/30 px-4 py-3">
           <p className="text-xs text-muted-foreground mb-1">Grand Total Cost</p>
-          <p className="font-semibold tabular-nums">{grandTotal.toLocaleString('fr-DZ')} DZD</p>
+          <p className="font-semibold tabular-nums">{formatDZD(grandTotal)}</p>
         </div>
         {nextDeadlineTask && (
           <div className="flex-1 min-w-48 rounded-lg border border-border bg-muted/30 px-4 py-3">

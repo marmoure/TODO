@@ -24,6 +24,13 @@ export function daysUntil(iso: string): number {
   return Math.ceil((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
 }
 
+// Algerian convention: 1 million = 10,000 DZD — always display as XM DZD
+export function formatDZD(dzd: number): string {
+  const millions = dzd / 10_000
+  const formatted = millions.toLocaleString('fr-DZ', { maximumFractionDigits: 2 })
+  return `${formatted}M DZD`
+}
+
 export function updateTaskById(tasks: Task[], updated: Task): Task[] {
   return tasks.map(t =>
     t.id === updated.id ? updated : { ...t, tasks: updateTaskById(t.tasks, updated) }
