@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "lifetracker-data",
+  "title": "LifeTracker Data",
+  "description": "Root array stored in public/data.json and persisted to sessionStorage.",
+  "type": "array",
+  "items": { "$ref": "#/definitions/Project" },
+
+  "definitions": {
+    "TaskStatus": {
+      "type": "string",
+      "enum": ["pending", "in-progress", "done", "delayed"],
+      "description": "'delayed' is set automatically when delayedBy > 0."
+    },
+
+    "Task": {
+      "type": "object",
+      "required": ["id", "title", "deadline", "estimatedDays", "cost", "status", "notes", "delayedBy", "tasks"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Globally unique, human-readable slug (e.g. 'car-bank-appt')."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "deadline": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO-8601 date (YYYY-MM-DD). Effective deadline = deadline + delayedBy days."
+        },
+        "estimatedDays": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Work duration in calendar days."
+        },
+        "cost": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Cost in DZD (Algerian Dinar). Leaf tasks carry the actual amount; parent totals are computed by rollupCosts()."
+        },
+        "status": { "$ref": "#/definitions/TaskStatus" },
+        "notes": {
+          "type": "string",
+          "description": "Free-form markdown-friendly text. Empty string when not used."
+        },
+        "delayedBy": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Additional days added to the deadline. propagateDeadlines() bubbles the max upward."
+        },
+        "tasks": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Task" },
+          "description": "Nested sub-tasks. Leaf tasks must have an empty array []."
+        }
+      },
+
+      "examples": [
+        {
+          "id": "car-financing",
+          "title": "Arrange financing",
+          "deadline": "2026-09-01",
+          "estimatedDays": 14,
+          "cost": 0,
+          "status": "pending",
+          "notes": "",
+          "delayedBy": 0,
+          "tasks": [
+            {
+              "id": "car-bank-appt",
+              "title": "Book bank appointment",
+              "deadline": "2026-07-20",
+              "estimatedDays": 1,
+              "cost": 0,
+              "status": "pending",
+              "notes": "",
+              "delayedBy": 0,
+              "tasks": []
+            },
+            {
+              "id": "car-docs",
+              "title": "Prepare documentation",
+              "deadline": "2026-07-25",
+              "estimatedDays": 2,
+              "cost": 0,
+              "status": "pending",
+              "notes": "Salary certificate, bank statements (3 months), ID.",
+              "delayedBy": 0,
+              "tasks": []
+            }
+          ]
+        }
+      ]
+    },
+
+    "Project": {
+      "type": "object",
+      "required": ["id", "title", "deadline", "notes", "tasks"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Globally unique slug (e.g. 'house-rent-2027')."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "deadline": {
+          "type": "string",
+          "format": "date",
+          "description": "Overall project target date. propagateDeadlines() may push this out based on task delays."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Project-level context: goals, constraints, budget summary."
+        },
+        "tasks": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Task" },
+          "description": "Top-level tasks. Each may contain arbitrarily nested sub-tasks."
+        }
+      },
+
+      "examples": [
+        {
+          "id": "house-rent-2027",
+          "title": "House Rent",
+          "deadline": "2027-01-01",
+          "notes": "Looking for a 3-bedroom apartment in the city center. Budget around 130,000 DZD/month.",
+          "tasks": [
+            {
+              "id": "hr-contact",
+              "title": "Get the owner contact",
+              "deadline": "2026-08-01",
+              "estimatedDays": 5,
+              "cost": 0,
+              "status": "pending",
+              "notes": "Ask neighbours and check Facebook groups for leads.",
+              "delayedBy": 0,
+              "tasks": []
+            },
+            {
+              "id": "hr-fees",
+              "title": "Pay the fees",
+              "deadline": "2027-01-01",
+              "estimatedDays": 1,
+              "cost": 1560000,
+              "status": "pending",
+              "notes": "130,000 DZD × 12 months",
+              "delayedBy": 0,
+              "tasks": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
