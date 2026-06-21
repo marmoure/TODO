@@ -85,18 +85,9 @@ function isAuthenticated(): boolean {
   return sessionStorage.getItem('lifetracker-auth') === '1'
 }
 
-function loadCached(): Project[] | null {
-  try {
-    const raw = sessionStorage.getItem('lifetracker-data')
-    return raw ? (JSON.parse(raw) as Project[]) : null
-  } catch {
-    return null
-  }
-}
-
 export default function App() {
   const [authed, setAuthed] = useState<boolean>(isAuthenticated)
-  const [projects, setProjects] = useState<Project[] | null>(loadCached)
+  const [projects, setProjects] = useState<Project[] | null>(null)
   const [fetchError, setFetchError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -107,14 +98,12 @@ export default function App() {
         return r.json()
       })
       .then((data: Project[]) => {
-        sessionStorage.setItem('lifetracker-data', JSON.stringify(data))
         setProjects(data)
       })
       .catch(() => setFetchError('Could not load data.json. Make sure it exists on the server.'))
   }, [authed, projects])
 
   function handleProjectsChange(updated: Project[]) {
-    sessionStorage.setItem('lifetracker-data', JSON.stringify(updated))
     setProjects(updated)
   }
 
